@@ -2,6 +2,12 @@
 
 A minimalist, PDF-first macOS desktop paper manager designed around the real pain points of reading academic papers.
 
+## Why PaperManager?
+
+In the era of AI agents, agents can help us read and digest papers faster than ever — yet what is read effortlessly is also forgotten just as quickly. **PaperManager** was built with one core mission: **a distraction-free paper manager designed to prevent forgetting.** By pairing every local PDF with a reader-written, one-line takeaway surfaced directly in your library, you can scan an entire folder of papers and instantly recall what each work actually did.
+
+> **初衷**：在 Agent 时代，AI 可以帮我们以前所未有的速度阅读论文，但读得越快，遗忘得也越快。**PaperManager** 的初衷正是做一个极简的论文管理工具，专注于**对抗遗忘**——让每一篇读过的论文都沉淀为一句由你自己写下的核心总结，随时翻看，一眼记起。
+
 ## Features
 
 - **PDF-First Local Folder Mapping**: Mount any local folder on disk (subfolders = categories). Dropping PDFs into Finder or moving papers between folders stays in live sync via filesystem watching — no database lock-in.
