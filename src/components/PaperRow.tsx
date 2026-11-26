@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import type { I18nDict } from '../i18n';
 import type { PdfPaper } from '../types';
+import { splitTeams } from '../utils/teams';
 
 interface PaperRowProps {
   t: I18nDict;
@@ -121,19 +122,20 @@ export const PaperRow: React.FC<PaperRowProps> = ({
 
           {/* Row 2: Unified compact metadata strip (Team, Venue/Year, Authors, File, Folder, Tags) */}
           <div className="mt-1.5 flex items-center gap-x-2 gap-y-1 flex-wrap text-[11.5px] text-stone-400">
-            {paper.team && (
+            {splitTeams(paper.team).map((tm) => (
               <button
+                key={tm}
                 onClick={(e) => {
                   e.stopPropagation();
-                  onTeamClick(paper.team);
+                  onTeamClick(tm);
                 }}
-                title={t.filterByTeam(paper.team)}
+                title={t.filterByTeam(tm)}
                 className="inline-flex items-center gap-1 text-[11px] font-medium text-indigo-700 bg-indigo-50/90 border border-indigo-200/70 hover:bg-indigo-100 px-1.5 py-0.5 rounded transition-colors shrink-0"
               >
                 <Building2 className="w-2.5 h-2.5 opacity-75" />
-                {paper.team}
+                {tm}
               </button>
-            )}
+            ))}
             {venueYear && (
               <span className="text-[11px] font-medium text-stone-500 bg-stone-100 px-1.5 py-0.5 rounded shrink-0">
                 {venueYear}

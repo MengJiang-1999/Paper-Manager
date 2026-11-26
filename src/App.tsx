@@ -20,6 +20,7 @@ import { Sidebar, type StatusFilter } from './components/Sidebar';
 import { TakeawayModal } from './components/TakeawayModal';
 import { loadSavedLocale, MESSAGES, saveLocale, type Locale } from './i18n';
 import type { LlmConfig, PdfPaper, WorkspaceSnapshot } from './types';
+import { splitTeams } from './utils/teams';
 
 export default function App() {
   const [locale, setLocale] = useState<Locale>(() => loadSavedLocale());
@@ -169,8 +170,8 @@ export default function App() {
     for (const p of papers) {
       if (p.status === 'read') read += 1;
       else unread += 1;
-      if (p.team) {
-        teamMap.set(p.team, (teamMap.get(p.team) || 0) + 1);
+      for (const tm of splitTeams(p.team)) {
+        teamMap.set(tm, (teamMap.get(tm) || 0) + 1);
       }
       for (const t of p.tags) {
         tagMap.set(t, (tagMap.get(t) || 0) + 1);
@@ -198,7 +199,7 @@ export default function App() {
           return false;
         }
       }
-      if (selectedTeam && p.team !== selectedTeam) return false;
+      if (selectedTeam && !splitTeams(p.team).includes(selectedTeam)) return false;
       if (selectedTag && !p.tags.includes(selectedTag)) return false;
       if (q) {
         const haystack = [

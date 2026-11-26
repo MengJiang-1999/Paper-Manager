@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import type { I18nDict } from '../i18n';
 import type { FolderNode, PaperMetaRecord, PdfPaper } from '../types';
+import { splitTeams } from '../utils/teams';
 
 interface InspectorDrawerProps {
   t: I18nDict;
@@ -433,22 +434,24 @@ export const InspectorDrawer: React.FC<InspectorDrawerProps> = ({
               placeholder={t.teamPlaceholder}
               className="w-full rounded-lg bg-white border border-[#E5E0D5] focus:border-stone-400 outline-none px-2.5 py-1.5 text-[12px] text-stone-800"
             />
-            {allTeams.filter((tm) => tm !== team).length > 0 && (
+            {allTeams.filter((tm) => !splitTeams(team).includes(tm)).length > 0 && (
               <div className="mt-1 flex flex-wrap gap-1">
                 {allTeams
-                  .filter((tm) => tm !== team)
+                  .filter((tm) => !splitTeams(team).includes(tm))
                   .slice(0, 6)
                   .map((tm) => (
                     <button
                       key={tm}
                       type="button"
                       onClick={() => {
-                        setTeam(tm);
-                        onUpdateMeta(paper.relPath, { team: tm });
+                        const existing = splitTeams(team);
+                        const nextTeam = [...existing, tm].join(' · ');
+                        setTeam(nextTeam);
+                        onUpdateMeta(paper.relPath, { team: nextTeam });
                       }}
                       className="text-[10.5px] px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
                     >
-                      {tm}
+                      + {tm}
                     </button>
                   ))}
               </div>
